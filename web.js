@@ -46,6 +46,6 @@ app.get('/', function(req, res) {
 
 var port = Number(process.env.PORT || 5000);
 app.listen(port, function() {
-	console.log( NODE_ENV);
+	console.log( process.env);
   console.log("Listening on " + port);
 });
