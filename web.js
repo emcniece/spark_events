@@ -41,7 +41,7 @@ es.onerror = function(){
 app.use(logfmt.requestLogger());
 
 app.get('/', function(req, res) {
-  res.send('Hello World!' + ENV['deviceID'] );
+  res.send('Hello World!');
 });
 
 var port = Number(process.env.PORT || 5000);
