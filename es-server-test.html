@@ -1,0 +1,93 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+
+    <style type="text/css">
+        #uptime{ font-size:20px;}
+        #tstamp{ font-size:12px;}
+        #temp{ font-size:14px;}
+    </style>
+    <title>Spark NodeJS ES Server Test</title>
+</head>
+<body>
+    <h1>Spark NodeJS ES Server Test</h1>
+    <span id="uptime"></span><br>
+    <span id="tstamp"></span>
+
+    <div id="temp">
+        <ul id="environment"></ul>
+        <ul id="soil"></ul>
+    </div>
+
+
+    <br><br>
+    <button onclick="start()">Connect</button>
+
+    <script type="text/javascript">
+    function start() {
+
+        document.getElementById("uptime").innerHTML = "Waiting for data...";
+        
+        var eventSource = new EventSource("http://127.0.0.1:8080");
+
+        eventSource.addEventListener('open', function(e) { console.log("Opened!"); },false);
+        eventSource.addEventListener('error', function(e) { console.log("Errored!"); },false);
+
+        eventSource.addEventListener('Uptime', function(e) {
+            var rawData = JSON.parse(e.data);
+            console.log( rawData);
+            var parsedData = JSON.parse(rawData.data);
+            var tempSpan = document.getElementById("uptime");
+            var tsSpan   = document.getElementById("tstamp");
+
+            console.log( rawData);
+            console.log( parsedData);
+
+            tempSpan.innerHTML = "Core: " + rawData.coreid + " Uptime: " + parsedData.Hours + ":" + parsedData.Minutes + ":" + parseInt(parsedData.Seconds).toPrecision(2) +
+                     " (" + (parsedData.Seconds + parsedData.Minutes*60 + parsedData.Hours*3600) + " secs)";
+            
+            tsSpan.innerHTML = "At timestamp " + rawData.published_at;
+            
+        }, false);
+
+		eventSource.onmessage = function(e){
+		  console.log( 'onmessage: ', e.data);
+		};
+
+        eventSource.addEventListener('Environment', function(e) {
+            var rawData = JSON.parse(e.data);
+            console.log( rawData);
+            var parsedData = JSON.parse(rawData.data);
+            var envList = document.getElementById("environment");
+            
+
+            console.log( rawData);
+            console.log( parsedData);
+
+            envList.innerHTML = "<li>Temp C: " + parsedData.temp_c + "</li><li>Temp F: " + parsedData.temp_f 
+                + "</li><li>Humidity : " + parsedData.humidity + "%</li>";
+            
+            
+        }, false);
+
+        eventSource.addEventListener('Soil', function(e) {
+            var rawData = JSON.parse(e.data);
+            console.log( rawData);
+            var parsedData = JSON.parse(rawData.data);
+            var envList = document.getElementById("soil");
+            
+
+            console.log( rawData);
+            console.log( parsedData);
+
+            envList.innerHTML = "<li>Soil 1: " + parsedData.soilOne + "</li><li>Soil 2: " + parsedData.soilTwo+'</li>';
+            
+            
+        }, false);
+
+
+
+    }
+    </script>
+</body>
+</html>
