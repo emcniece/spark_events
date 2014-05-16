@@ -24,7 +24,8 @@
   "dependencies": {
     "express": "~4.2.0",
     "logfmt": "~1.1.2",
-    "eventsource": "~0.1.0"
+    "eventsource": "~0.1.0",
+    "node-monkey": "~0.2.8"
   },
   "engines": {
     "node": "0.10.x"
