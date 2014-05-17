@@ -21,20 +21,20 @@
 
 	// Test URL - uses es.onmessage to capture events
 	//var url = 'https://demo-eventsource.rhcloud.com/';
-
+console.log( ENV);
 	/*===================================
 	=            EventSource            =
 	===================================*/
 	var es = new EventSource(url);
 
-	// Only fires for Spark URL
-	es.addEventListener('Uptime', function(e){
-		console.log( 'listener: ', JSON.parse(e.data) );
-	}, false);
+	//// Only fires for Spark URL
+	//es.addEventListener('Uptime', function(e){
+	//	console.log( 'listener: ', JSON.parse(e.data) );
+	//}, false);
 
 	// Only fires for Test URL
 	es.onmessage = function(e){
-	  console.log( 'onmessage: ', e.data);
+	  //console.log( 'onmessage: ', e.data);
 	};
 
 	es.onerror = function(){
@@ -67,13 +67,22 @@
 	                         , 'Connection'    : 'keep-alive'
 	                         , "Access-Control-Allow-Origin": "*"
 	                         });
+
 	      console.log('Client connect');
-	 
+
+	      // Only fires for Spark URL
+		  es.addEventListener('Uptime', function(e){
+		    console.log( 'listener: ', JSON.parse(e.data) );
+		    //res.write( JSON.parse(e.data) );
+		    res.write('data: '+e.data+'\n\n');
+		  }, false);
+
+		/*	 
 	      var t = setInterval(function () {
 	         console.log('Send data');
-	         res.write('data: DATA\n\n');
+	         //res.write('data: DATA\n\n');
 	      }, 5000);
-	 
+	 	*/
 	      res.socket.on('close', function () {
 	         console.log('Client leave');
 	         clearInterval(t);

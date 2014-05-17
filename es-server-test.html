@@ -51,7 +51,7 @@
         }, false);
 
 		eventSource.onmessage = function(e){
-		  console.log( 'onmessage: ', e.data);
+		  console.log( 'HTML onmessage: ', JSON.parse(e.data) );
 		};
 
         eventSource.addEventListener('Environment', function(e) {
