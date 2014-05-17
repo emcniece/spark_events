@@ -20,7 +20,7 @@ var express 		= require("express")
 =            Initialization            =
 ======================================*/
 var connect = require('connect');
-connect().use(connect.static(__dirname)).listen(8123);
+connect().use(connect.static('/html')).listen(8123);
 
 var app = express();
 app.use(bodyParser() );
