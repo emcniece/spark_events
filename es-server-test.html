@@ -28,7 +28,7 @@
 
         document.getElementById("uptime").innerHTML = "Waiting for data...";
         
-        var eventSource = new EventSource("http://127.0.0.1:8080");
+        var eventSource = new EventSource("http://127.0.0.1:8080/events");
 
         eventSource.addEventListener('open', function(e) { console.log("Opened!"); },false);
         eventSource.addEventListener('error', function(e) { console.log("Errored!"); },false);

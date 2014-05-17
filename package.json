@@ -25,8 +25,12 @@
     "express": "~4.2.0",
     "logfmt": "~1.1.2",
     "eventsource": "~0.1.0",
-    "node-monkey": "~0.2.8",
-    "http": "0.0.0"
+    "http": "0.0.0",
+    "swagger-node-express": "~2.0.2",
+    "body-parser": "~1.2.0",
+    "cors": "~2.3.1",
+    "json": "~8.0.0",
+    "urlencode": "~0.2.0"
   },
   "engines": {
     "node": "0.10.x"
