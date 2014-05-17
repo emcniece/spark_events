@@ -10,7 +10,7 @@ var express 		= require("express")
   , json 			= require('json')
   , urlencode 		= require('urlencode')
   , swagger 		= require('swagger-node-express')
-  , swmodels		= require('./swagger-models.js')
+  , models		= require('./swagger-models.js')
   ;
 
 /*======================================
@@ -47,7 +47,7 @@ var url = "https://api.spark.io/v1/devices/"+deviceID+"/events/?access_token="+a
 
 // Couple the application to Swagger
 swagger.setAppHandler(app);
-swagger.addModels(swmodels);
+swagger.addModels(models);
 
 // Add models and methods to swagger
 swagger.addModels(models)
