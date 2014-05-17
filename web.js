@@ -10,7 +10,8 @@ var express 		= require("express")
   , json 			= require('json')
   , urlencode 		= require('urlencode')
   , swagger 		= require('swagger-node-express')
-  , models		= require('./swagger-models.js')
+  , swRes 			= requres('./swagger-resources.js')
+  , models			= require('./swagger-models.js')
   ;
 
 /*======================================
@@ -51,12 +52,12 @@ swagger.addModels(models);
 
 // Add models and methods to swagger
 swagger.addModels(models)
-  .addGet(petResources.findById)
-  .addGet(petResources.findByTags)
-  .addGet(petResources.findByStatus)
-  .addPost(petResources.addPet)
-  .addPut(petResources.updatePet)
-  .addDelete(petResources.deletePet);
+  .addGet(swRes.findById)
+  .addGet(swRes.findByTags)
+  .addGet(swRes.findByStatus)
+  .addPost(swRes.addPet)
+  .addPut(swRes.updatePet)
+  .addDelete(swRes.deletePet);
 
 swagger.configureDeclaration("pet", {
   description : "Operations about Pets",
