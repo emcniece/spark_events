@@ -1,22 +1,26 @@
 // web.js
 var express 		= require("express")
+  , connect 		= require('connect')
   , logfmt 			= require("logfmt")
   , EventSource 	= require('eventsource')
   , http 			= require('http')
   , fs   			= require('fs')
+  , util 			= require('util')
   , url 			= require('url')
   , cors 			= require('cors')
   , bodyParser		= require('body-parser')
   , json 			= require('json')
   , urlencode 		= require('urlencode')
   , swagger 		= require('swagger-node-express')
-  , swRes 			= requres('./swagger-resources.js')
+  , swRes 			= require('./swagger-resources.js')
   , models			= require('./swagger-models.js')
   ;
 
 /*======================================
 =            Initialization            =
 ======================================*/
+var connect = require('connect');
+connect().use(connect.static(__dirname)).listen(8080);
 
 var app = express();
 app.use(bodyParser() );
@@ -86,21 +90,6 @@ swagger.setAuthorizations({
 swagger.configureSwaggerPaths("", "api-docs", "")
 swagger.configure("http://localhost:8002", "1.0.0");
 
-/*
-// Serve up swagger ui at /docs via static route
-var docs_handler = express.static(__dirname + '/../../swagger-ui/');
-app.get(/^\/docs(\/.*)?$/, function(req, res, next) {
-  if (req.url === '/docs') { // express static barfs on root url w/o trailing slash
-    res.writeHead(302, { 'Location' : req.url + '/' });
-    res.end();
-    return;
-  }
-  // take off leading /docs so that connect locates file correctly
-  req.url = req.url.substr('/docs'.length);
-  return docs_handler(req, res, next);
-});
-*/
-
 // Start the server on port 8002
 app.listen(8002);
 
@@ -131,7 +120,16 @@ es.onerror = function(){
 
 
 app.get('/', function(req, res) {
-  res.send('Hello World!');
+  //res.send('Hello World!');
+  res.sendfile('html/index.html');
+});
+
+app.get('/html/*', function(req, res){
+	//console.log( req);
+	
+	var file = req.url.substr(1);
+	console.log( file );
+	res.sendfile( file );
 });
 
 var port = Number(process.env.PORT || 5000);
@@ -142,8 +140,6 @@ app.listen(port, function() {
 /*=================================
 =            ES Server            =
 =================================*/ 
-
-
 
 http.createServer(function (req, res) {
    if (req.url == '/events') {
@@ -170,6 +166,7 @@ http.createServer(function (req, res) {
          //res.write('data: DATA\n\n');
       }, 5000);
  	*/
+
       res.socket.on('close', function () {
          console.log('Client leave');
          clearInterval(t);
