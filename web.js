@@ -27,14 +27,6 @@ var express 		= require("express")
 =            Initialization            =
 ======================================*/
 
-app.configure('development', function(){
-   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
-});
-
-app.configure('production', function(){
-   app.use(express.errorHandler()); 
-});
-
 // webserver
 var connect = require('connect');
 connect().use(connect.static('/html')).listen(8123);
