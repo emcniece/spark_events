@@ -21,7 +21,7 @@
 
 	// Test URL - uses es.onmessage to capture events
 	//var url = 'https://demo-eventsource.rhcloud.com/';
-console.log( ENV);
+console.log( process);
 	/*===================================
 	=            EventSource            =
 	===================================*/
