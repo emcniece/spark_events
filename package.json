@@ -1,7 +1,7 @@
 {
   "name": "spark_events",
   "version": "0.0.0",
-  "description": "",
+  "description": "An event relay server for Spark Cores that enables datalogging and intermediary processing",
   "main": "web.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -30,7 +30,8 @@
     "cors": "~2.3.1",
     "json": "~8.0.0",
     "urlencode": "~0.2.0",
-    "connect": "~2.16.1"
+    "connect": "~2.16.1",
+    "jsdoc": "~3.3.0-alpha5"
   },
   "engines": {
     "node": "0.10.x"
