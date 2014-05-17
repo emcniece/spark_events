@@ -21,8 +21,8 @@ var app = express();
 app.use(bodyParser() );
 //app.use(express.json() );
 //app.use(express.urlencoded() );
-app.use( json() );
-app.use( urlencode() );
+//app.use( json() );
+//app.use( urlencode() );
 
 app.use(logfmt.requestLogger());
 
