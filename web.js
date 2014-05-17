@@ -1,3 +1,10 @@
+/* 
+	-- TODO --
+
+	Figure out the web server bits. Currently the app doesn't run in foreman and
+	on Heroku it fails to process font files
+*/
+
 // web.js
 var express 		= require("express")
   , connect 		= require('connect')
@@ -19,6 +26,16 @@ var express 		= require("express")
 /*======================================
 =            Initialization            =
 ======================================*/
+
+app.configure('development', function(){
+   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
+});
+
+app.configure('production', function(){
+   app.use(express.errorHandler()); 
+});
+
+// webserver
 var connect = require('connect');
 connect().use(connect.static('/html')).listen(8123);
 
@@ -91,7 +108,7 @@ swagger.configureSwaggerPaths("", "api-docs", "")
 swagger.configure("http://localhost:8002", "1.0.0");
 
 // Start the server on port 8002
-app.listen(8002);
+//app.listen(8002);
 
 
 /*===================================
