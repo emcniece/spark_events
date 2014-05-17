@@ -18,9 +18,6 @@ var express 		= require("express")
   , bodyParser		= require('body-parser')
   , json 			= require('json')
   , urlencode 		= require('urlencode')
-  , swagger 		= require('swagger-node-express')
-  , swRes 			= require('./swagger-resources.js')
-  , models			= require('./swagger-models.js')
   ;
 
 /*======================================
@@ -28,7 +25,6 @@ var express 		= require("express")
 ======================================*/
 
 // webserver
-var connect = require('connect');
 connect().use(connect.static('/html')).listen(8123);
 
 var app = express();
@@ -54,53 +50,6 @@ var url = "https://api.spark.io/v1/devices/"+deviceID+"/events/?access_token="+a
 
 // Test URL - uses es.onmessage to capture events
 //var url = 'https://demo-eventsource.rhcloud.com/';
-
-/*=============================================
-=            Swagger Documentation            =
-=============================================*/
-
-// Couple the application to Swagger
-swagger.setAppHandler(app);
-swagger.addModels(models);
-
-// Add models and methods to swagger
-swagger.addModels(models)
-  .addGet(swRes.findById)
-  .addGet(swRes.findByTags)
-  .addGet(swRes.findByStatus)
-  .addPost(swRes.addPet)
-  .addPut(swRes.updatePet)
-  .addDelete(swRes.deletePet);
-
-swagger.configureDeclaration("pet", {
-  description : "Operations about Pets",
-  authorizations : ["oauth2"],
-  produces: ["application/json"]
-});
-
-// set api info
-swagger.setApiInfo({
-  title: "Swagger Sample App",
-  description: "This is a sample server Petstore server. You can find out more about Swagger at <a href=\"http://swagger.wordnik.com\">http://swagger.wordnik.com</a> or on irc.freenode.net, #swagger.  For this sample, you can use the api key \"special-key\" to test the authorization filters",
-  termsOfServiceUrl: "http://helloreverb.com/terms/",
-  contact: "apiteam@wordnik.com",
-  license: "Apache 2.0",
-  licenseUrl: "http://www.apache.org/licenses/LICENSE-2.0.html"
-});
-
-swagger.setAuthorizations({
-  apiKey: {
-    type: "apiKey",
-    passAs: "header"
-  }
-});
-
-// Configures the app's base path and api version.
-swagger.configureSwaggerPaths("", "api-docs", "")
-swagger.configure("http://localhost:8002", "1.0.0");
-
-// Start the server on port 8002
-//app.listen(8002);
 
 
 /*===================================
