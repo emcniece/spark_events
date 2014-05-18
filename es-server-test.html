@@ -21,14 +21,19 @@
 
 
     <br><br>
+    <select id="source">
+    	<option value="http://127.0.0.1:8080/events">http://127.0.0.1:8080/events</option>
+    	<option value="http://spark-events.herokuapp.com:8080/events">http://spark-events.herokuapp.com:8080/events</option>
+    </select>
+
     <button onclick="start()">Connect</button>
 
     <script type="text/javascript">
     function start() {
-
+    	var esSource = document.getElementById('source').value;
         document.getElementById("uptime").innerHTML = "Waiting for data...";
         
-        var eventSource = new EventSource("http://127.0.0.1:8080/events");
+        var eventSource = new EventSource(esSource);
 
         eventSource.addEventListener('open', function(e) { console.log("Opened!"); },false);
         eventSource.addEventListener('error', function(e) { console.log("Errored!"); },false);

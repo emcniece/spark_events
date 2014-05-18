@@ -8,6 +8,7 @@
 // web.js
 var express 		= require("express")
   , connect 		= require('connect')
+  , dotenv			= require('dotenv')
   , logfmt 			= require("logfmt")
   , EventSource 	= require('eventsource')
   , http 			= require('http')
@@ -23,9 +24,7 @@ var express 		= require("express")
 /*======================================
 =            Initialization            =
 ======================================*/
-
-// webserver
-connect().use(connect.static('/html')).listen(8123);
+dotenv.load(); 
 
 var app = express();
 app.use(bodyParser() );
@@ -44,6 +43,7 @@ var PORT = process.argv[2] || 8080
 // Spark Credentials (temp)
 var deviceID = process.env.deviceID;	// string, your device ID
 var accessToken = process.env.accessToken; // string, your access token
+console.log( process.env.deviceID);
 
 // Spark URL - must use es.addEventListener and specify the event name
 var url = "https://api.spark.io/v1/devices/"+deviceID+"/events/?access_token="+accessToken;
@@ -57,17 +57,12 @@ var url = "https://api.spark.io/v1/devices/"+deviceID+"/events/?access_token="+a
 ===================================*/
 var es = new EventSource(url);
 
-//// Only fires for Spark URL
-//es.addEventListener('Uptime', function(e){
-//	console.log( 'listener: ', JSON.parse(e.data) );
-//}, false);
-
 // Only fires for Test URL
 es.onmessage = function(e){
   //console.log( 'onmessage: ', e.data);
 };
 
-es.onerror = function(){
+es.onerror = function(e){
   console.log('ES Error');
 };
 
@@ -76,21 +71,21 @@ es.onerror = function(){
 ================================*/
 
 
-
-app.get('/', function(req, res) {
-  //res.send('Hello World!');
+// Base browser access
+app.get('/', function(req, res) {  
   res.sendfile('html/index.html');
 });
 
+// Aux file server
 app.get('/html/*', function(req, res){
-	//console.log( req);
 	
+	// Remove front slash, serve it up!
 	var file = req.url.substr(1);
-	console.log( file );
 	res.sendfile( file );
 });
 
 var port = Number(process.env.PORT || 5000);
+
 app.listen(port, function() {
   console.log("Listening on " + port);
 });
@@ -112,22 +107,15 @@ http.createServer(function (req, res) {
       // Only fires for Spark URL
 	  es.addEventListener('Uptime', function(e){
 	    console.log( 'listener: ', JSON.parse(e.data) );
-	    //res.write( JSON.parse(e.data) );
+	    
 	    res.write('id: 33\n');
 	    res.write('event: Soil\n');
 	    res.write('data: '+e.data+'\n\n');
 	  }, false);
 
-	/*	 
-      var t = setInterval(function () {
-         console.log('Send data');
-         //res.write('data: DATA\n\n');
-      }, 5000);
- 	*/
 
       res.socket.on('close', function () {
          console.log('Client leave');
-         clearInterval(t);
       });
  
    } else {
