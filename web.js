@@ -10,15 +10,15 @@ var express 		= require("express")
   , connect 		= require('connect')
   , dotenv			= require('dotenv')
   , logfmt 			= require("logfmt")
-  , EventSource 	= require('eventsource')
-  , http 			= require('http')
-  , fs   			= require('fs')
-  , util 			= require('util')
-  , url 			= require('url')
-  , cors 			= require('cors')
-  , bodyParser		= require('body-parser')
-  , json 			= require('json')
-  , urlencode 		= require('urlencode')
+  , EventSource = require('eventsource')
+  , http 			  = require('http')
+  , fs   			  = require('fs')
+  , util 			  = require('util')
+  , url 			  = require('url')
+  , cors 			  = require('cors')
+  , bodyParser	= require('body-parser')
+  , json 			  = require('json')
+  , urlencode 	= require('urlencode')
   ;
 
 /*======================================
@@ -43,7 +43,6 @@ var PORT = process.argv[2] || 8080
 // Spark Credentials (temp)
 var deviceID = process.env.deviceID;	// string, your device ID
 var accessToken = process.env.accessToken; // string, your access token
-console.log( process.env.deviceID);
 
 // Spark URL - must use es.addEventListener and specify the event name
 var url = "https://api.spark.io/v1/devices/"+deviceID+"/events/?access_token="+accessToken;
